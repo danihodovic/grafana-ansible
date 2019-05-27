@@ -1,0 +1,18 @@
+---
+- name: restart grafana
+  listen: restart_grafana
+  notify: health_check_grafana
+  docker_container:
+    name: '{{ grafana_container_name }}'
+    restart: true
+
+- name: health check grafana
+  listen: health_check_grafana
+  uri:
+    url: http://localhost:3000/api/health
+    status_code: 200
+    timeout: 5
+  register: health_check_grafana
+  retries: 10
+  delay: 1
+  until: health_check_grafana.status == 200

@@ -1,0 +1,16 @@
+---
+grafana_image_name: grafana/grafana
+grafana_image_tag: latest
+grafana_image: '{{ grafana_image_name }}:{{ grafana_image_tag }}'
+grafana_container_name: grafana
+grafana_dir: /etc/grafana
+grafana_listen_addr: 127.0.0.1:13000
+grafana_domain:
+grafana_memory: '{{ ansible_memory_mb.real.total * 0.5 }}m'
+grafana_cpu_shares: '{{ (1024 * 1) | int }}'
+
+grafana_env_default:
+  GF_AUTH_PROXY_ENABLED: 'true'
+  GF_AUTH_PROXY_HEADER_NAME: 'X-Auth-Request-Email'
+  # yamllint disable-line rule:line-length
+  GF_AUTH_PROXY_HEADERS: '"Name:X-Auth-Request-User Email:X-Auth-Request-Email"'
